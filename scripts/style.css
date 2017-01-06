@@ -1,0 +1,66 @@
+html{
+    background-color: azure;
+}
+body{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#wrapper{
+    position: relative;
+    width: 1070px;
+    height: 800px;
+    left: 0;
+    right: 0;
+    margin: 5px auto 5px auto;
+    border: groove 10px lightslategrey;
+}
+.col{
+    position: relative;
+    float: left;
+    /*border: dotted 1px black;*/
+    height: 800px;
+}
+
+#canvasWrapper{
+    background-color: lightyellow;
+}
+#statsWrapper{
+    border-left: groove 10px lightslategray;
+    width: 260px;
+    background-color: lightgrey;
+}
+.statsForm{
+    margin: 5px 5px;
+}
+.optionParagraph{
+    margin: 10px 2px;
+}
+.optionParagraph label{
+    display: inline-block;
+    width: 130px;
+}
+.optionParagraph .option{
+    display: inline-block;
+    width: 50px;
+}
+.optionParagraph .operator{
+    display: inline-block;
+    width: 75px;
+}
+.optionParagraph .value{
+    display: inline-block;
+    width: 70px;
+}
+.copyright{
+    width: 100%;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.copyright a{
+    text-decoration: none;
+    color:grey;
+    font-size: small;
+}

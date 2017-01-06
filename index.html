@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="author" content="Amiran Ramishvili">
+    <meta name="advisor" content="Bidzina Midodashvili">
+    <meta name="title" content="Applications of Genetic Algorithms: Mutation Operators for Traveling Salesman Problem">
+    <meta name="description" content="A thesis submitted for the degree of Master of Science, Ivane Javakhishvili Tbilisi State University, Faculty of Exact and Natural Sciences, Tbilisi 2015">
+    <meta name="language" content="Georgian">
+    <meta name="abstract" content="Traveling Salesman Problem hasn't lost it's popularity for some 70 years, and is, nowdays used in fields such as planning, logistics, microchip manufacturing, DNA sequencing, etc.
+TSP is an NP-complete problem, and, as such, is best solved using heuristic methods, such as Genetic Algorithms, Simulated Annealing, Ant Colony Optimization, etc.
+In this work we discuss possible methods for optimizing mutation operators used by GA to solve TSP.
+Test results show that, especially in case of large number of cities, they are effective solution-wise, but are costly time-wise.">
+    <meta name="url" content="https://drive.google.com/file/d/0B48652_VZXw9YzFVcnd0MENhQTg/view?usp=sharing">
+    <title>GA for TSP</title>
+    <link rel="stylesheet" type="text/css" href="scripts/style.css">
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/script.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div class="col" id="canvasWrapper">
+            <canvas id="tspCanvas" width="800" height="800">awd</canvas>
+        </div>
+        <div class="col" id="statsWrapper">
+            <form class="statsForm" id="settingsForm">
+                <fieldset>
+                    <legend>Settings:</legend>
+                    <p class="optionParagraph">
+                        <label>Number of cities: </label>
+                        <select class="option" id="cityNum">
+                            <!--<option value="10">10</option>-->
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="200">200</option>
+                            <option value="250">250</option>
+                        </select>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Population size: </label>
+                        <input class="option" id="popSize" type="number" name="quantity" min="100" max="1000" step="10" value="100">
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Max. generations: </label>
+                        <input class="option" id="maxGen" type="number" name="quantity" min="1000" max="100000" step="10" value="10000">
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Convergance: </label>
+                        <input class="option" id="converge" type="number" name="quantity" min="1000" max="10000" step="10" value="2000">
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Elite rate: </label>
+                        <input class="option" id="eliteRate" type="number" name="quantity" min="1" max="100" step="1" value="3">
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Mutation rate (%): </label>
+                        <input class="option" id="mutationRate" type="number" name="quantity" min="1" max="100" step="1" value="85">
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Crossover operator: </label>
+                        <select class="operator" id="crossoverOperator">
+                            <option value="CX">Cycle (CX)</option>
+                            <!--<option value="OX">Order (OX)</option>-->
+                            <!--<option value="APX">Alternating-position (APX)</option>-->
+                            <!--<option value="UXO">Universal XO</option>-->
+                            <!--<option value="test">Test</option>-->
+                        </select>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Mutation operator: </label>
+                        <select class="operator" id="mutationOperator">
+                            <option value="TWORS">TWORS</option>
+                            <!--<option value="TWORS2">TWORS2</option>-->
+                            <!--<option value="TWORS3">TWORS3</option>-->
+                            <option value="CIM">CIM (Centre Inverse Mutation)</option>
+                            <!--<option value="CIM2">CIM2 (Centre Inverse Mutation)</option>-->
+                            <option value="RSM">RSM (Reverse Sequence Mutation)</option>
+                            <option value="CTWORS">CTWORS</option>
+                            <option value="CCIM">CCIM (Calculated Centre Inverse Mutation)</option>
+                            <option value="CRSM">CRSM (Calculated Reverse Sequence Mutation)</option>
+                        </select>
+                    </p>
+                    <p class="optionParagraph">
+                        <input type="button" id="initialize" value="Initialize">
+                        <input type="button" id="reset" value="Reset">
+                    </p>
+                </fieldset>
+            </form>
+            <form class="statsForm" id="generationForm">
+                <fieldset>
+                    <legend>Cur. generation:</legend>
+                    <p class="optionParagraph">
+                        <label>Generation: </label>
+                        <input class="value" id="generationNum" type="number" readonly>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Elapsed time (ms): </label>
+                        <input class="value" id="elapsedTime" type="number" readonly>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Best distance: </label>
+                        <input class="value" id="bestDistance" type="number" readonly>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Worst distance: </label>
+                        <input class="value" id="worstDistance" type="number" readonly>
+                    </p>
+                    <p class="optionParagraph">
+                        <label>Mean distance: </label>
+                        <input class="value" id="meanDistance" type="number" readonly>
+                    </p>
+                    <p class="optionParagraph">
+                        <input type="button" id="evolve" value="Evolve">
+                        <input type="button" id="finish" value="Finish">
+                    </p>
+                </fieldset>
+            </form>
+<!--
+	    <form class="statsForm" id="reportForm">
+                <fieldset>
+                    <legend>Report settings:</legend>
+                    <p class="optionParagraph">
+                        <label>Test (x) times: </label>
+                        <input class="value" id="reportCount" type="number">
+                    </p>
+                    <p class="optionParagraph">
+                        <input type="button" id="report" value="Report">
+                    </p>
+                </fieldset>
+            </form> 
+-->
+        </div>
+
+        <script type="text/javascript" >
+            var tspCanvas = document.getElementById("tspCanvas");
+            var tspContext = tspCanvas.getContext("2d");
+            var tspFlags = {};
+            var tspPopulation = {};
+            var tspReport = {};
+
+            tspReport.report = [];
+            tspReport.mutationOperator = ["TWORS","TWORS1","TWORS2","CIM","CIM1","RSM"];
+            drawNoteLines();
+
+
+            $( document ).ready(function() {
+                $("#initialize").on("click", function(){
+                    initialize();
+                });
+                $("#reset").on("click", function(){
+                    reset();
+                });
+                $("#evolve").on("click", function(){
+                    evolve();
+                });
+                $("#finish").on("click", function(){
+                    tspFlags.finishClicked = 1;
+                });
+                $("#report").on("click", function(){
+                    tspReport.reportCount = $("#reportCount").val();
+                    for(var i=0; i<tspReport.reportCount; i++){
+                        $("#mutationOperator").val(tspReport.mutationOperator[0]);
+                        initialize();
+                        tspPopulation.mutationOperator = tspReport.mutationOperator[0];
+                        tspReport.report[0] = evolve();
+                        var j = 0;
+                        tspReport.reportInterval = setInterval(function(){
+                            if(tspFlags.evolutionFinished) {
+                                j++;
+                                $("#mutationOperator").val(tspReport.mutationOperator[j]);
+                                reset();
+                                tspPopulation.mutationOperator = tspReport.mutationOperator[j];
+                                tspReport.report[j] = evolve();
+                                tspFlags.evolutionFinished = 0;
+                            }
+                            if(j == tspReport.mutationOperator.length){
+                                clearInterval(tspReport.reportInterval);
+                            }
+                        },10);
+
+                    }
+                console.log(tspReport.report);
+                });
+            });
+        </script>
+
+    </div>
+    <div class="copyright"><a href="https://www.linkedin.com/in/aramishvili">© Amiran Ramishvili</a></div>
+
+</body>
+</html>
