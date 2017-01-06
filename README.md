@@ -1,8 +1,8 @@
+### Applications of Genetic Algorithms: Mutation Operators for Traveling Salesman Problem
+
 author:       Amiran Ramishvili
 
 advisor:      Bidzina Midodashvili
-
-title:        Applications of Genetic Algorithms: Mutation Operators for Traveling Salesman Problem
 
 description:  A thesis submitted for the degree of Master of Science, Ivane Javakhishvili Tbilisi State University, Faculty of Exact and Natural Sciences, Tbilisi 2015
 
