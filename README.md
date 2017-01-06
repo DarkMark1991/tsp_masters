@@ -13,4 +13,6 @@ TSP is an NP-complete problem, and, as such, is best solved using heuristic meth
 In this work we discuss possible methods for optimizing mutation operators used by GA to solve TSP.
 Test results show that, especially in case of large number of cities, they are effective solution-wise, but are costly time-wise.
               
-url:          https://drive.google.com/file/d/0B48652_VZXw9YzFVcnd0MENhQTg/view?usp=sharing
+thesis:       https://drive.google.com/file/d/0B48652_VZXw9YzFVcnd0MENhQTg/view?usp=sharing
+
+demo:         https://cdn.rawgit.com/DarkMark1991/tsp_masters/master/index.html
