@@ -15,4 +15,4 @@ Test results show that, especially in case of large number of cities, they are e
               
 thesis:       https://drive.google.com/file/d/0B48652_VZXw9YzFVcnd0MENhQTg/view?usp=sharing
 
-demo:         https://cdn.rawgit.com/DarkMark1991/tsp_masters/master/index.html
+demo:         https://cdn.rawgit.com/darkmark1991/tsp_masters/b157fe5a/index.html
