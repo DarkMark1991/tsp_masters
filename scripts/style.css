@@ -39,6 +39,7 @@ body{
 .optionParagraph label{
     display: inline-block;
     width: 130px;
+    float: left;
 }
 .optionParagraph .option{
     display: inline-block;
